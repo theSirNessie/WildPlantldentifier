@@ -30,15 +30,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent" />
 
+    <ImageView
+        android:id="@+id/anemoneImage"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="4dp"
+        android:contentDescription="תמונה של כלנית מצויה"
+        android:scaleType="centerCrop"
+        android:src="@drawable/anemone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/catalogDescription" />
+
     <ListView
         android:id="@+id/plantListView"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="20dp"
-        app:layout_constraintTop_toBottomOf="@id/catalogDescription"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/anemoneImage"
+        app:layout_constraintVertical_bias="0.0" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
