@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.WildPlantIdentifier">
         <activity
+            android:name=".PlantCatalogActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true"
             android:windowSoftInputMode="adjustResize">
