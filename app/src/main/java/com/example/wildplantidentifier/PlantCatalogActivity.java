@@ -7,6 +7,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import java.util.ArrayList;
+
 
 public class PlantCatalogActivity extends AppCompatActivity {
 
@@ -15,6 +19,23 @@ public class PlantCatalogActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_plant_catalog);
+
+        ListView plantListView = findViewById(R.id.plantListView);
+
+        ArrayList<String> plants = new ArrayList<>();
+
+        plants.add("כלנית מצויה");
+        plants.add("רקפת מצויה");
+        plants.add("חרצית עטורה");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(
+                this,
+                android.R.layout.simple_list_item_1,
+                plants
+        );
+
+        plantListView.setAdapter(adapter);
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
