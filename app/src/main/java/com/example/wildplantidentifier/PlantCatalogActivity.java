@@ -10,6 +10,11 @@ import androidx.core.view.WindowInsetsCompat;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import java.util.ArrayList;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
+
 
 
 public class PlantCatalogActivity extends AppCompatActivity {
@@ -55,31 +60,61 @@ public class PlantCatalogActivity extends AppCompatActivity {
                 ""
         ));
 
+
         ArrayAdapter<Plant> adapter = new ArrayAdapter<Plant>(
                 this,
-                android.R.layout.simple_list_item_1,
+                R.layout.plant_list_item,
                 plants
         ) {
             @Override
-            public android.view.View getView(
+            public View getView(
                     int position,
-                    android.view.View convertView,
-                    android.view.ViewGroup parent) {
+                    View convertView,
+                    ViewGroup parent) {
 
-                android.view.View view = super.getView(
-                        position, convertView, parent);
+                View view = convertView;
 
-                android.widget.TextView textView =
-                        (android.widget.TextView) view;
+                if (view == null) {
+                    view = getLayoutInflater().inflate(
+                            R.layout.plant_list_item,
+                            parent,
+                            false
+                    );
+                }
 
                 Plant plant = getItem(position);
-                textView.setText(plant.getHebrewName());
+
+                ImageView plantImage = view.findViewById(R.id.plantImage);
+                TextView plantName = view.findViewById(R.id.plantName);
+
+                plantName.setText(plant.getHebrewName());
+
+                int imageResource = 0;
+
+                if (plant.getImageName() != null
+                        && !plant.getImageName().isEmpty()) {
+
+                    imageResource = getResources().getIdentifier(
+                            plant.getImageName(),
+                            "drawable",
+                            getPackageName()
+                    );
+                }
+
+                if (imageResource != 0) {
+                    plantImage.setImageResource(imageResource);
+                    plantImage.setVisibility(View.VISIBLE);
+                } else {
+                    plantImage.setImageDrawable(null);
+                    plantImage.setVisibility(View.INVISIBLE);
+                }
 
                 return view;
             }
         };
 
         plantListView.setAdapter(adapter);
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
