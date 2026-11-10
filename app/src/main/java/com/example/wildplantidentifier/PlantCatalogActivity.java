@@ -1,5 +1,6 @@
 package com.example.wildplantidentifier;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.activity.EdgeToEdge;
@@ -114,6 +115,25 @@ public class PlantCatalogActivity extends AppCompatActivity {
         };
 
         plantListView.setAdapter(adapter);
+        plantListView.setOnItemClickListener((parent, view, position, id) -> {
+
+            Plant selectedPlant = plants.get(position);
+
+            Intent intent = new Intent(
+                    PlantCatalogActivity.this,
+                    PlantDetailsActivity.class
+            );
+
+            intent.putExtra("hebrewName", selectedPlant.getHebrewName());
+            intent.putExtra("scientificName", selectedPlant.getScientificName());
+            intent.putExtra("description", selectedPlant.getDescription());
+            intent.putExtra("habitat", selectedPlant.getHabitat());
+            intent.putExtra("season", selectedPlant.getFloweringSeason());
+            intent.putExtra("safety", selectedPlant.getSafetyInfo());
+            intent.putExtra("imageName", selectedPlant.getImageName());
+
+            startActivity(intent);
+        });
 
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
