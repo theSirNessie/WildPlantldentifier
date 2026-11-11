@@ -48,7 +48,7 @@ public class PlantCatalogActivity extends AppCompatActivity {
                 "אזורים סלעיים ומוצלים",
                 "חורף",
                 "אין לאכול ללא זיהוי מוסמך",
-                ""
+                "cyclamen"
         ));
 
         plants.add(new Plant(
@@ -58,7 +58,7 @@ public class PlantCatalogActivity extends AppCompatActivity {
                 "שטחים פתוחים",
                 "חורף ואביב",
                 "אין להסתמך על זיהוי בתמונה כדי לקבוע אכילות",
-                ""
+                "crown_daisy"
         ));
 
 
