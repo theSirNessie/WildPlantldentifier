@@ -1,6 +1,8 @@
 package com.example.wildplantidentifier;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -55,6 +57,11 @@ public class PlantDetailsActivity extends AppCompatActivity {
                 plantImage.setImageResource(imageResource);
             }
         }
+        Button backButton = findViewById(R.id.backButton);
+
+        backButton.setOnClickListener(v -> {
+            finish();
+        });
 
 
     }
