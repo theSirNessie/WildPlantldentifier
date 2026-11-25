@@ -104,4 +104,80 @@ public class PlantIdentificationActivity extends AppCompatActivity {
                 declaredLength
         );
     }
+    private Bitmap prepareImage(Bitmap original) {
+        return Bitmap.createScaledBitmap(original, 224, 224, true);
+    }
+
+    private ByteBuffer convertImageToByteBuffer(Bitmap bitmap) {
+
+        ByteBuffer byteBuffer = ByteBuffer.allocateDirect(
+                1 * 224 * 224 * 3 * 4
+        );
+
+        byteBuffer.order(ByteOrder.nativeOrder());
+
+        for (int y = 0; y < 224; y++) {
+            for (int x = 0; x < 224; x++) {
+
+                int pixel = bitmap.getPixel(x, y);
+
+                float red = ((pixel >> 16) & 0xFF) / 127.5f - 1.0f;
+                float green = ((pixel >> 8) & 0xFF) / 127.5f - 1.0f;
+                float blue = (pixel & 0xFF) / 127.5f - 1.0f;
+
+                byteBuffer.putFloat(red);
+                byteBuffer.putFloat(green);
+                byteBuffer.putFloat(blue);
+            }
+        }
+
+        byteBuffer.rewind();
+
+        return byteBuffer;
+    }
+    private void identifyPlant(Bitmap originalBitmap) {
+
+        if (tflite == null || originalBitmap == null) {
+            return;
+        }
+
+        Bitmap resizedBitmap = prepareImage(originalBitmap);
+
+        ByteBuffer inputBuffer =
+                convertImageToByteBuffer(resizedBitmap);
+
+        float[][] output = new float[1][4];
+
+        tflite.run(inputBuffer, output);
+
+        String[] classNames = {
+                "anemone",
+                "crown_daisy",
+                "cyclamen",
+                "unknown"
+        };
+
+        int bestIndex = 0;
+        float bestConfidence = output[0][0];
+
+        for (int i = 1; i < 4; i++) {
+            if (output[0][i] > bestConfidence) {
+                bestConfidence = output[0][i];
+                bestIndex = i;
+            }
+        }
+
+        String plantName = classNames[bestIndex];
+
+        TextView resultText = findViewById(R.id.identificationResult);
+
+        resultText.setText(
+                "זיהוי: " + plantName +
+                        "\nביטחון: " + String.format(
+                        java.util.Locale.US,
+                        "%.2f%%",
+                        bestConfidence * 100
+                )
+        );
+    }
 }
