@@ -28,10 +28,16 @@ import java.nio.ByteOrder;
 public class PlantIdentificationActivity extends AppCompatActivity {
     private ActivityResultLauncher<String> imagePickerLauncher;
     private Interpreter tflite;
+    private Bitmap selectedBitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        try {
+            tflite = new Interpreter(loadModelFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         setContentView(R.layout.activity_plant_identification);
         ImageView selectedPlantImage = findViewById(R.id.selectedPlantImage);
         Button chooseImageButton = findViewById(R.id.chooseImageButton);
@@ -42,6 +48,20 @@ public class PlantIdentificationActivity extends AppCompatActivity {
                 uri -> {
                     if (uri != null) {
                         selectedPlantImage.setImageURI(uri);
+
+                        try {
+                            java.io.InputStream inputStream =
+                                    getContentResolver().openInputStream(uri);
+
+                            selectedBitmap = BitmapFactory.decodeStream(inputStream);
+
+                            if (inputStream != null) {
+                                inputStream.close();
+                            }
+
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                     }
                 }
         );
@@ -62,5 +82,26 @@ public class PlantIdentificationActivity extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+    private MappedByteBuffer loadModelFile() throws IOException {
+        FileInputStream inputStream = new FileInputStream(
+                getAssets().openFd("plant_model_4classes.tflite").getFileDescriptor()
+        );
+
+        FileChannel fileChannel = inputStream.getChannel();
+
+        long startOffset = getAssets()
+                .openFd("plant_model_4classes.tflite")
+                .getStartOffset();
+
+        long declaredLength = getAssets()
+                .openFd("plant_model_4classes.tflite")
+                .getLength();
+
+        return fileChannel.map(
+                FileChannel.MapMode.READ_ONLY,
+                startOffset,
+                declaredLength
+        );
     }
 }
