@@ -52,15 +52,44 @@ public class Plant {
         return imageName;
     }
 
-    public static void main(String[] args) {
-        Plant anemone = new Plant(
-                "כלנית מצויה",
-                "Anemone coronaria",
-                "צמח בר בעל פרחים צבעוניים",
-                "שטחים פתוחים",
-                "חורף ואביב",
-                "אין להסיק על אכילות לפי זיהוי בתמונה",
-                "Anemone"
-        );
+    public void setHebrewName(String hebrewName) {
+        this.hebrewName = hebrewName;
+    }
+
+    public void setScientificName(String scientificName) {
+        this.scientificName = scientificName;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setHabitat(String habitat) {
+        this.habitat = habitat;
+    }
+
+    public void setFloweringSeason(String floweringSeason) {
+        this.floweringSeason = floweringSeason;
+    }
+
+    public void setSafetyInfo(String safetyInfo) {
+        this.safetyInfo = safetyInfo;
+    }
+
+    public void setImageName(String imageName) {
+        this.imageName = imageName;
+    }
+
+    @Override
+    public String toString() {
+        return "Plant{" +
+                "hebrewName='" + hebrewName + '\'' +
+                ", scientificName='" + scientificName + '\'' +
+                ", description='" + description + '\'' +
+                ", habitat='" + habitat + '\'' +
+                ", floweringSeason='" + floweringSeason + '\'' +
+                ", safetyInfo='" + safetyInfo + '\'' +
+                ", imageName='" + imageName + '\'' +
+                '}';
     }
 }
