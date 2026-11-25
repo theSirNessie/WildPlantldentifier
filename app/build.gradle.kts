@@ -45,6 +45,8 @@ android {
 }
 
 dependencies {
+    implementation(libs.litert)
+    implementation("org.tensorflow:tensorflow-lite:2.16.1")
     implementation(libs.activity.ktx)
     implementation(libs.appcompat)
     implementation(libs.constraintlayout)

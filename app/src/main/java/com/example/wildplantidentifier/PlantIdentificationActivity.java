@@ -12,9 +12,22 @@ import android.net.Uri;
 import android.widget.ImageView;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.widget.TextView;
+
+import org.tensorflow.lite.Interpreter;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.nio.MappedByteBuffer;
+import java.nio.channels.FileChannel;
+import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 
 public class PlantIdentificationActivity extends AppCompatActivity {
     private ActivityResultLauncher<String> imagePickerLauncher;
+    private Interpreter tflite;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
