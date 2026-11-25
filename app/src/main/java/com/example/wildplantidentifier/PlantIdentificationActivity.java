@@ -54,6 +54,9 @@ public class PlantIdentificationActivity extends AppCompatActivity {
                                     getContentResolver().openInputStream(uri);
 
                             selectedBitmap = BitmapFactory.decodeStream(inputStream);
+                            if (selectedBitmap != null) {
+                                identifyPlant(selectedBitmap);
+                            }
 
                             if (inputStream != null) {
                                 inputStream.close();
