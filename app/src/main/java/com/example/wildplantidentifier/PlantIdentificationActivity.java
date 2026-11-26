@@ -192,11 +192,29 @@ public class PlantIdentificationActivity extends AppCompatActivity {
         }
 
         String plantName = classNames[bestIndex];
+        // בדיקה אם הביטחון נמוך מ-50%
+        if (bestConfidence < 0.50f) {
+            clearPlantDetails();
+
+            TextView resultText = findViewById(R.id.identificationResult);
+            resultText.setText(
+                    "הזיהוי אינו ודאי\n" +
+                            "ביטחון: " + String.format(
+                            java.util.Locale.US,
+                            "%.2f%%",
+                            bestConfidence * 100
+                    ) +
+                            "\nנסה לצלם תמונה ברורה יותר"
+            );
+
+            return;
+        }
+
+// בדיקה אם הצמח שייך למחלקת הצמחים הלא מוכרים
         if (bestIndex == 3) {
             clearPlantDetails();
 
             TextView resultText = findViewById(R.id.identificationResult);
-
             resultText.setText(
                     "לא זוהה צמח מוכר\n" +
                             "ביטחון: " + String.format(
