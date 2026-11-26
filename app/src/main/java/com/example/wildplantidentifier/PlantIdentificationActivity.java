@@ -154,10 +154,10 @@ public class PlantIdentificationActivity extends AppCompatActivity {
         tflite.run(inputBuffer, output);
 
         String[] classNames = {
-                "anemone",
-                "crown_daisy",
-                "cyclamen",
-                "unknown"
+                "כלנית מצויה",
+                "חרצית עטורה",
+                "רקפת מצויה",
+                "צמח לא מוכר"
         };
 
         int bestIndex = 0;
