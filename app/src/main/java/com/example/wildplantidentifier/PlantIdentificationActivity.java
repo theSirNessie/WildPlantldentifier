@@ -185,6 +185,7 @@ public class PlantIdentificationActivity extends AppCompatActivity {
             return;
         }
 
+
         ArrayList<Plant> plants = PlantData.getPlants();
 
         Plant identifiedPlant = null;
@@ -197,14 +198,50 @@ public class PlantIdentificationActivity extends AppCompatActivity {
         }
 
         TextView resultText = findViewById(R.id.identificationResult);
+        TextView scientificNameText = findViewById(R.id.scientificNameText);
+        TextView confidenceText = findViewById(R.id.confidenceText);
+        TextView descriptionText = findViewById(R.id.descriptionText);
+        TextView habitatText = findViewById(R.id.habitatText);
+        TextView seasonText = findViewById(R.id.seasonText);
+        TextView safetyText = findViewById(R.id.safetyText);
 
-        resultText.setText(
-                "זיהוי: " + plantName +
-                        "\nביטחון: " + String.format(
-                        java.util.Locale.US,
-                        "%.2f%%",
-                        bestConfidence * 100
-                )
-        );
+        if (identifiedPlant != null) {
+
+            resultText.setText(identifiedPlant.getHebrewName());
+
+            scientificNameText.setText(
+                    identifiedPlant.getScientificName()
+            );
+
+            confidenceText.setText(
+                    "ביטחון זיהוי: " + String.format(
+                            java.util.Locale.US,
+                            "%.2f%%",
+                            bestConfidence * 100
+                    )
+            );
+
+            descriptionText.setText(
+                    identifiedPlant.getDescription()
+            );
+
+            habitatText.setText(
+                    identifiedPlant.getHabitat()
+            );
+
+            seasonText.setText(
+                    identifiedPlant.getFloweringSeason()
+            );
+
+            safetyText.setText(
+                    identifiedPlant.getSafetyInfo()
+            );
+
+        } else {
+
+            resultText.setText("לא נמצא מידע על הצמח במאגר");
+        }
+
     }
+
 }

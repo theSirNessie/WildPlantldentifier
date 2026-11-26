@@ -3,13 +3,14 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="1dp"
+        android:padding="16dp"
         android:gravity="center_horizontal">
 
         <TextView
@@ -18,13 +19,23 @@
             android:text="זיהוי צמחים"
             android:textSize="28sp"
             android:textStyle="bold"
+            android:textColor="#24452C"
             android:gravity="center"
-            android:layout_marginBottom="24dp" />
+            android:layout_marginBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="גלה איזה צמח מצאת בטבע"
+            android:textSize="16sp"
+            android:textColor="#68776A"
+            android:gravity="center"
+            android:layout_marginBottom="20dp" />
 
         <ImageView
             android:id="@+id/selectedPlantImage"
             android:layout_width="match_parent"
-            android:layout_height="250dp"
+            android:layout_height="230dp"
             android:scaleType="centerCrop"
             android:background="#EEEEEE"
             android:contentDescription="התמונה שנבחרה לזיהוי" />
@@ -34,32 +45,114 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="בחירת תמונה מהגלריה"
-            android:layout_marginTop="20dp" />
+            android:layout_marginTop="16dp" />
 
         <Button
             android:id="@+id/takePhotoButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="צילום תמונה חדשה"
-            android:layout_marginTop="12dp" />
+            android:layout_marginTop="8dp" />
 
-        <TextView
-            android:id="@+id/identificationResult"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="כאן תופיע תוצאת הזיהוי"
-            android:textSize="18sp"
-            android:gravity="center"
-            android:layout_marginTop="24dp" />
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginTop="24dp"
+            android:background="#F1F5EF">
+
+            <TextView
+                android:id="@+id/identificationResult"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="תוצאת הזיהוי"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:textColor="#24452C" />
+
+            <TextView
+                android:id="@+id/scientificNameText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textColor="#68776A"
+                android:layout_marginTop="4dp" />
+
+            <TextView
+                android:id="@+id/confidenceText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                android:layout_marginTop="12dp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="תיאור הצמח"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="20dp" />
+
+            <TextView
+                android:id="@+id/descriptionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="אזור גידול"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/habitatText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="עונת פריחה"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/seasonText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="מידע בטיחותי"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:textColor="#9A5A16"
+                android:layout_marginTop="16dp" />
+
+            <TextView
+                android:id="@+id/safetyText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:textColor="#80501E" />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/backButton"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="חזרה למסך הראשי"
             android:layout_marginTop="20dp" />
 
     </LinearLayout>
 </ScrollView>
-
-
