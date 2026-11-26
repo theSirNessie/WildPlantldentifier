@@ -45,6 +45,7 @@ android {
 }
 
 dependencies {
+    implementation("com.google.android.gms:play-services-location:21.3.0")
     implementation(libs.litert)
     implementation(libs.activity.ktx)
     implementation(libs.appcompat)
