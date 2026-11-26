@@ -25,8 +25,12 @@ import java.nio.channels.FileChannel;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.util.ArrayList;
+import android.graphics.Bitmap;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 
 public class PlantIdentificationActivity extends AppCompatActivity {
+    private ActivityResultLauncher<Void> cameraLauncher;
     private ActivityResultLauncher<String> imagePickerLauncher;
     private Interpreter tflite;
     private Bitmap selectedBitmap;
@@ -85,6 +89,22 @@ public class PlantIdentificationActivity extends AppCompatActivity {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
+        });
+        cameraLauncher = registerForActivityResult(
+                new ActivityResultContracts.TakePicturePreview(),
+                bitmap -> {
+                    if (bitmap != null) {
+                        selectedBitmap = bitmap;
+                        selectedPlantImage.setImageBitmap(bitmap);
+                        identifyPlant(bitmap);
+                    }
+                }
+        );
+
+        Button takePhotoButton = findViewById(R.id.takePhotoButton);
+
+        takePhotoButton.setOnClickListener(v -> {
+            cameraLauncher.launch(null);
         });
     }
     private MappedByteBuffer loadModelFile() throws IOException {
@@ -173,7 +193,10 @@ public class PlantIdentificationActivity extends AppCompatActivity {
 
         String plantName = classNames[bestIndex];
         if (bestIndex == 3) {
+            clearPlantDetails();
+
             TextView resultText = findViewById(R.id.identificationResult);
+
             resultText.setText(
                     "לא זוהה צמח מוכר\n" +
                             "ביטחון: " + String.format(
@@ -182,6 +205,7 @@ public class PlantIdentificationActivity extends AppCompatActivity {
                             bestConfidence * 100
                     )
             );
+
             return;
         }
 
@@ -242,6 +266,21 @@ public class PlantIdentificationActivity extends AppCompatActivity {
             resultText.setText("לא נמצא מידע על הצמח במאגר");
         }
 
+    }private void clearPlantDetails() {
+        TextView scientificNameText = findViewById(R.id.scientificNameText);
+        TextView confidenceText = findViewById(R.id.confidenceText);
+        TextView descriptionText = findViewById(R.id.descriptionText);
+        TextView habitatText = findViewById(R.id.habitatText);
+        TextView seasonText = findViewById(R.id.seasonText);
+        TextView safetyText = findViewById(R.id.safetyText);
+
+        scientificNameText.setText("");
+        confidenceText.setText("");
+        descriptionText.setText("");
+        habitatText.setText("");
+        seasonText.setText("");
+        safetyText.setText("");
     }
+
 
 }
