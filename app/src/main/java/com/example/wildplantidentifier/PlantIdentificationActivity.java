@@ -28,12 +28,31 @@ import java.util.ArrayList;
 import android.graphics.Bitmap;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.Priority;
+import com.google.android.gms.tasks.CancellationTokenSource;
+
 
 public class PlantIdentificationActivity extends AppCompatActivity {
     private ActivityResultLauncher<Void> cameraLauncher;
     private ActivityResultLauncher<String> imagePickerLauncher;
     private Interpreter tflite;
     private Bitmap selectedBitmap;
+    private FusedLocationProviderClient fusedLocationClient;
+
+    private double plantLatitude;
+    private double plantLongitude;
+
+    private boolean hasPlantLocation = false;
+    private ActivityResultLauncher<String[]> locationPermissionLauncher;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,8 +63,36 @@ public class PlantIdentificationActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         setContentView(R.layout.activity_plant_identification);
+        fusedLocationClient =
+                LocationServices.getFusedLocationProviderClient(this);
         ImageView selectedPlantImage = findViewById(R.id.selectedPlantImage);
         Button chooseImageButton = findViewById(R.id.chooseImageButton);
+        locationPermissionLauncher = registerForActivityResult(
+                new ActivityResultContracts.RequestMultiplePermissions(),
+                permissions -> {
+                    Boolean fineLocation = permissions.get(
+                            Manifest.permission.ACCESS_FINE_LOCATION);
+
+                    Boolean coarseLocation = permissions.get(
+                            Manifest.permission.ACCESS_COARSE_LOCATION);
+
+                    if (Boolean.TRUE.equals(fineLocation) ||
+                            Boolean.TRUE.equals(coarseLocation)) {
+
+                        getPlantLocation();
+
+                    } else {
+                        hasPlantLocation = false;
+
+                        Toast.makeText(
+                                this,
+                                "לא ניתנה הרשאת מיקום",
+                                Toast.LENGTH_SHORT
+                        ).show();
+                    }
+                }
+        );
+
 
 // יצירת בוחר התמונות
         imagePickerLauncher = registerForActivityResult(
@@ -97,10 +144,12 @@ public class PlantIdentificationActivity extends AppCompatActivity {
                         selectedBitmap = bitmap;
                         selectedPlantImage.setImageBitmap(bitmap);
                         identifyPlant(bitmap);
+
+                        // קבלת המיקום שבו צולמה התמונה
+                        checkLocationPermission();
                     }
                 }
         );
-
         Button takePhotoButton = findViewById(R.id.takePhotoButton);
 
         takePhotoButton.setOnClickListener(v -> {
@@ -298,6 +347,88 @@ public class PlantIdentificationActivity extends AppCompatActivity {
         habitatText.setText("");
         seasonText.setText("");
         safetyText.setText("");
+    }
+    private void checkLocationPermission() {
+
+        boolean fineLocation = ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED;
+
+        boolean coarseLocation = ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED;
+
+        if (fineLocation || coarseLocation) {
+            getPlantLocation();
+        } else {
+            locationPermissionLauncher.launch(new String[]{
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+            });
+        }
+    }
+    @SuppressWarnings("MissingPermission")
+    private void getPlantLocation() {
+
+        boolean fineLocation = ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED;
+
+        boolean coarseLocation = ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED;
+
+        if (!fineLocation && !coarseLocation) {
+            return;
+        }
+
+        CancellationTokenSource cancellationTokenSource =
+                new CancellationTokenSource();
+
+        fusedLocationClient.getCurrentLocation(
+                Priority.PRIORITY_HIGH_ACCURACY,
+                cancellationTokenSource.getToken()
+        ).addOnSuccessListener(location -> {
+
+            if (location != null) {
+
+                plantLatitude = location.getLatitude();
+                plantLongitude = location.getLongitude();
+
+                hasPlantLocation = true;
+
+                Toast.makeText(
+                        this,
+                        "המיקום נשמר בהצלחה",
+                        Toast.LENGTH_SHORT
+                ).show();
+
+            } else {
+
+                hasPlantLocation = false;
+
+                Toast.makeText(
+                        this,
+                        "לא הצלחנו לקבל מיקום. בדוק שה-GPS מופעל",
+                        Toast.LENGTH_LONG
+                ).show();
+            }
+
+        }).addOnFailureListener(e -> {
+
+            hasPlantLocation = false;
+
+            Toast.makeText(
+                    this,
+                    "אירעה שגיאה בקבלת המיקום",
+                    Toast.LENGTH_SHORT
+            ).show();
+
+        });
     }
 
 
