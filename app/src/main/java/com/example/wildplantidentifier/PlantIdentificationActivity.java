@@ -24,6 +24,7 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
+import java.util.ArrayList;
 
 public class PlantIdentificationActivity extends AppCompatActivity {
     private ActivityResultLauncher<String> imagePickerLauncher;
@@ -171,6 +172,29 @@ public class PlantIdentificationActivity extends AppCompatActivity {
         }
 
         String plantName = classNames[bestIndex];
+        if (bestIndex == 3) {
+            TextView resultText = findViewById(R.id.identificationResult);
+            resultText.setText(
+                    "לא זוהה צמח מוכר\n" +
+                            "ביטחון: " + String.format(
+                            java.util.Locale.US,
+                            "%.2f%%",
+                            bestConfidence * 100
+                    )
+            );
+            return;
+        }
+
+        ArrayList<Plant> plants = PlantData.getPlants();
+
+        Plant identifiedPlant = null;
+
+        for (Plant plant : plants) {
+            if (plant.getHebrewName().equals(plantName)) {
+                identifiedPlant = plant;
+                break;
+            }
+        }
 
         TextView resultText = findViewById(R.id.identificationResult);
 
