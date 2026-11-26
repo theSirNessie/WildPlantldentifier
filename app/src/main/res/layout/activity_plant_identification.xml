@@ -19,7 +19,7 @@
             android:text="זיהוי צמחים"
             android:textSize="28sp"
             android:textStyle="bold"
-            android:textColor="#24452C"
+            android:textColor="#183D22"
             android:gravity="center"
             android:layout_marginBottom="8dp" />
 
@@ -27,8 +27,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="גלה איזה צמח מצאת בטבע"
-            android:textSize="16sp"
-            android:textColor="#68776A"
+            android:textSize="17sp"
+            android:textColor="#354A38"
             android:gravity="center"
             android:layout_marginBottom="20dp" />
 
@@ -58,7 +58,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:padding="16dp"
+            android:padding="18dp"
             android:layout_marginTop="24dp"
             android:background="#F1F5EF">
 
@@ -67,83 +67,94 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="תוצאת הזיהוי"
-                android:textSize="24sp"
+                android:textSize="26sp"
                 android:textStyle="bold"
-                android:textColor="#24452C" />
+                android:textColor="#183D22" />
 
             <TextView
                 android:id="@+id/scientificNameText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
-                android:textColor="#68776A"
-                android:layout_marginTop="4dp" />
+                android:textSize="17sp"
+                android:textColor="#354A38"
+                android:layout_marginTop="5dp" />
 
             <TextView
                 android:id="@+id/confidenceText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="15sp"
+                android:textSize="17sp"
                 android:textStyle="bold"
+                android:textColor="#183D22"
                 android:layout_marginTop="12dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="תיאור הצמח"
-                android:textSize="18sp"
+                android:textSize="19sp"
                 android:textStyle="bold"
+                android:textColor="#183D22"
                 android:layout_marginTop="20dp" />
 
             <TextView
                 android:id="@+id/descriptionText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp" />
+                android:textSize="17sp"
+                android:textColor="#222222"
+                android:layout_marginTop="4dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="אזור גידול"
-                android:textSize="18sp"
+                android:textSize="19sp"
                 android:textStyle="bold"
+                android:textColor="#183D22"
                 android:layout_marginTop="16dp" />
 
             <TextView
                 android:id="@+id/habitatText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp" />
+                android:textSize="17sp"
+                android:textColor="#222222"
+                android:layout_marginTop="4dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="עונת פריחה"
-                android:textSize="18sp"
+                android:textSize="19sp"
                 android:textStyle="bold"
+                android:textColor="#183D22"
                 android:layout_marginTop="16dp" />
 
             <TextView
                 android:id="@+id/seasonText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp" />
+                android:textSize="17sp"
+                android:textColor="#222222"
+                android:layout_marginTop="4dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="מידע בטיחותי"
-                android:textSize="18sp"
+                android:textSize="19sp"
                 android:textStyle="bold"
-                android:textColor="#9A5A16"
+                android:textColor="#713D0B"
                 android:layout_marginTop="16dp" />
 
             <TextView
                 android:id="@+id/safetyText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textSize="16sp"
-                android:textColor="#80501E" />
+                android:textSize="17sp"
+                android:textColor="#633B12"
+                android:layout_marginTop="4dp" />
 
         </LinearLayout>
 
